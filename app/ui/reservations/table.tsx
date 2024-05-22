@@ -2,6 +2,7 @@ import Search from '@/app/ui/search';
 import {Button} from "@/app/ui/button";
 import {guests, roomTypes} from "@/app/lib/mock-data";
 import {Guest, Reservation} from "@/app/lib/types";
+import {PlusIcon} from '@heroicons/react/24/outline';
 
 export default async function ReservationsTable({
                                                     reservations,
@@ -12,7 +13,13 @@ export default async function ReservationsTable({
         <div className="w-full">
             {/* @todo: handle search */}
             {/* @todo: handle pagination locally */}
-            <Search placeholder="Search reservations..."/>
+            <div className="flex flex-row justify-between">
+                <Search placeholder="Search reservations..."/>
+                <Button className="hidden md:flex ml-2 md:ml-4">Create a new reservation</Button>
+                <Button className="md:hidden ml-2 md:ml-4">
+                    <PlusIcon className="h-[18px] w-[18px]"/>
+                </Button>
+            </div>
             <div className="mt-4 flow-root">
                 <div className="overflow-x-auto">
                     <div className="inline-block min-w-full align-middle">
@@ -35,7 +42,7 @@ export default async function ReservationsTable({
                                             className="flex w-full items-start justify-between border-b border-gray-50 py-5 gap-2">
                                             <div className="flex w-100 flex-col">
                                                 <p className="text-xs">Guest name(s)</p>
-                                                <p className="font-medium">{reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId).name).join(", ")}</p>
+                                                <p className="font-medium">{reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId)?.name || "No name").join(", ")}</p>
                                             </div>
                                         </div>
                                         <div
@@ -62,7 +69,7 @@ export default async function ReservationsTable({
                                             <div className="flex w-1/2 flex-col">
                                                 <p className="text-xs">Room type</p>
                                                 {/* todo: add a function for retrieving room type from root type id*/}
-                                                <p className="font-medium">{roomTypes.find((roomType) => roomType.id === reservation.roomTypeId).name}</p>
+                                                <p className="font-medium">{roomTypes.find((roomType) => roomType.id === reservation.roomTypeId)?.name || "Unknown room type"}</p>
                                             </div>
                                             <div className="flex w-1/2 flex-col">
                                                 <p className="text-xs">Total rate</p>
@@ -118,7 +125,7 @@ export default async function ReservationsTable({
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm">
                                             {/* @todo: define a function for retrieving guest names from guestIds */}
-                                            {reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId).name).join(" | ")}
+                                            {reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId)?.name || "No name").join(" | ")}
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm">
                                             {reservation.arrivalDate}
@@ -127,7 +134,7 @@ export default async function ReservationsTable({
                                             {reservation.departureDate}
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                                            {roomTypes.find((roomType) => roomType.id === reservation.roomTypeId).name}
+                                            {roomTypes.find((roomType) => roomType.id === reservation.roomTypeId)?.name || "Unknown room type"}
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                                             {reservation.adults + " + " + reservation.children + " = " + (reservation.adults + reservation.children)}
