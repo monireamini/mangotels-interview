@@ -3,6 +3,7 @@ import {Button} from "@/app/ui/button";
 import {guests, roomTypes} from "@/app/lib/mock-data";
 import {Guest, Reservation} from "@/app/lib/types";
 import {PlusIcon} from '@heroicons/react/24/outline';
+import {ButtonLink} from "@/app/ui/button-link";
 
 export default async function ReservationsTable({
                                                     reservations,
@@ -15,10 +16,10 @@ export default async function ReservationsTable({
             {/* @todo: handle pagination locally */}
             <div className="flex flex-row justify-between">
                 <Search placeholder="Search reservations..."/>
-                <Button className="hidden md:flex ml-2 md:ml-4">Create a new reservation</Button>
-                <Button className="md:hidden ml-2 md:ml-4">
+                <ButtonLink href="/reservations/create" className="hidden md:flex ml-2 md:ml-4">Create a new reservation</ButtonLink>
+                <ButtonLink href="/reservations/create" className="md:hidden ml-2 md:ml-4">
                     <PlusIcon className="h-[18px] w-[18px]"/>
-                </Button>
+                </ButtonLink>
             </div>
             <div className="mt-4 flow-root">
                 <div className="overflow-x-auto">
