@@ -1,6 +1,7 @@
-import Image from 'next/image';
 import Search from '@/app/ui/search';
 import {Button} from "@/app/ui/button";
+import {guests, roomTypes} from "@/app/lib/mock-data";
+import {Guest, Reservation} from "@/app/lib/types";
 
 export default async function ReservationsTable({
                                                     reservations,
@@ -9,6 +10,8 @@ export default async function ReservationsTable({
 }) {
     return (
         <div className="w-full">
+            {/* @todo: handle search */}
+            {/* @todo: handle pagination locally */}
             <Search placeholder="Search reservations..."/>
             <div className="mt-4 flow-root">
                 <div className="overflow-x-auto">
@@ -21,7 +24,7 @@ export default async function ReservationsTable({
                                         key={reservation.id}
                                         className="mb-2 w-full rounded-md bg-white p-4"
                                     >
-                                        <div className="flex items-center justify-between border-b border-gray-50 pb-4">
+                                        <div className="flex items-start justify-between border-b border-gray-50 pb-4">
                                             <div className="flex items-center">
                                                 <div className="flex items-center gap-3">
                                                     <p>ID {reservation.id}</p>
@@ -29,12 +32,15 @@ export default async function ReservationsTable({
                                             </div>
                                         </div>
                                         <div
-                                            className="flex w-full items-center justify-between border-b border-gray-50 py-5">
-                                            <div className="flex w-1/2 flex-col">
+                                            className="flex w-full items-start justify-between border-b border-gray-50 py-5 gap-2">
+                                            <div className="flex w-100 flex-col">
                                                 <p className="text-xs">Guest name(s)</p>
-                                                <p className="font-medium">{reservation.guestIds.toString()}</p>
+                                                <p className="font-medium">{reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId).name).join(", ")}</p>
                                             </div>
-                                            <div className="flex w-1/2 flex-col">
+                                        </div>
+                                        <div
+                                            className="flex w-full items-start justify-between border-b border-gray-50 py-5 gap-2">
+                                            <div className="flex w-100 flex-col">
                                                 <p className="text-xs">Number of guests (adults + children)</p>
                                                 <p className="font-medium">
                                                     {reservation.adults + " + " + reservation.children + " = " + (reservation.adults + reservation.children)}
@@ -42,7 +48,7 @@ export default async function ReservationsTable({
                                             </div>
                                         </div>
                                         <div
-                                            className="flex w-full items-center justify-between border-b border-gray-50 py-5">
+                                            className="flex w-full items-start justify-between border-b border-gray-50 py-5 gap-2">
                                             <div className="flex w-1/2 flex-col">
                                                 <p className="text-xs">Arrival</p>
                                                 <p className="font-medium">{reservation.arrivalDate}</p>
@@ -52,10 +58,11 @@ export default async function ReservationsTable({
                                                 <p className="font-medium">{reservation.departureDate}</p>
                                             </div>
                                         </div>
-                                        <div className="flex w-full items-center justify-between py-5">
+                                        <div className="flex w-full items-start justify-between py-5 gap-2">
                                             <div className="flex w-1/2 flex-col">
                                                 <p className="text-xs">Room type</p>
-                                                <p className="font-medium">{reservation.roomTypeId}</p>
+                                                {/* todo: add a function for retrieving room type from root type id*/}
+                                                <p className="font-medium">{roomTypes.find((roomType) => roomType.id === reservation.roomTypeId).name}</p>
                                             </div>
                                             <div className="flex w-1/2 flex-col">
                                                 <p className="text-xs">Total rate</p>
@@ -110,7 +117,8 @@ export default async function ReservationsTable({
                                             {reservation.id}
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm">
-                                            {reservation.guestIds.toString()}
+                                            {/* @todo: define a function for retrieving guest names from guestIds */}
+                                            {reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId).name).join(" | ")}
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm">
                                             {reservation.arrivalDate}
@@ -119,7 +127,7 @@ export default async function ReservationsTable({
                                             {reservation.departureDate}
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                                            {reservation.roomTypeId}
+                                            {roomTypes.find((roomType) => roomType.id === reservation.roomTypeId).name}
                                         </td>
                                         <td className="whitespace-nowrap bg-white py-5 px-2 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                                             {reservation.adults + " + " + reservation.children + " = " + (reservation.adults + reservation.children)}

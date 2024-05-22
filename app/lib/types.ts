@@ -1,3 +1,5 @@
+// @todo: use UUID for identifier fields
+
 export interface Guest {
     /**
      * unique identifier
@@ -17,6 +19,29 @@ export interface Guest {
     phone: string;
 }
 
+export interface RoomType {
+    /**
+     * unique identifier for the room type.
+     */
+    id: number;
+
+    /**
+     * name or description of the room type.
+     */
+    name: string;
+
+    /**
+     * base rate for the room type in $
+     */
+    baseRate: number;
+
+    /**
+     * maximum occupancy allowed for the room type.
+     */
+    maxOccupancy: number;
+}
+
+
 export enum ReservationStatus {
     Confirmed = 'confirmed',
     Cancelled = 'cancelled',
@@ -34,7 +59,7 @@ export interface Reservation {
     /**
      * identifier of room type
      */
-    roomTypeId: number;
+    roomTypeId: RoomType["id"];
     /**
      * number of adults guests
      */

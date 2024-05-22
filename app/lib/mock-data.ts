@@ -1,4 +1,4 @@
-import {Reservation, ReservationStatus} from "@/app/lib/types";
+import {Guest, Reservation, ReservationStatus, RoomType} from "@/app/lib/types";
 
 export const initialReservations: Reservation[] = [
     {
@@ -27,7 +27,7 @@ export const initialReservations: Reservation[] = [
         id: 3,
         guestIds: [5, 6, 7, 8],
         roomTypeId: 3,
-        adults: 4,
+        adults: 2,
         children: 2,
         arrivalDate: "2024-05-25",
         departureDate: "2024-05-30",
@@ -86,3 +86,31 @@ export const guests: Guest[] = [
         phone: "1112223333",
     },
 ];
+
+export const roomTypes: RoomType[] = [
+    {
+        id: 1,
+        name: "Standard Room",
+        baseRate: 100,
+        maxOccupancy: 2,
+    },
+    {
+        id: 2,
+        name: "Deluxe Room",
+        baseRate: 150,
+        maxOccupancy: 4,
+    },
+    {
+        id: 3,
+        name: "Suite",
+        baseRate: 250,
+        maxOccupancy: 6,
+    },
+    {
+        id: 4,
+        name: "Presidential Suite",
+        baseRate: 500,
+        maxOccupancy: 8,
+    },
+];
+
