@@ -41,6 +41,23 @@ export interface RoomType {
     maxOccupancy: number;
 }
 
+export interface Room {
+    /**
+     * unique identifier for the room
+     */
+    id: number;
+
+    /**
+     * The ID of the room type associated with this room
+     */
+    roomTypeId: RoomType["id"];
+
+    /**
+     * The room number or name\
+     */
+    roomNumber: number;
+}
+
 
 export enum ReservationStatus {
     Confirmed = 'confirmed',
@@ -86,3 +103,8 @@ export interface Reservation {
     status: ReservationStatus;
 }
 
+export interface AvailabilityData {
+    roomId: number;
+    date: string;
+    available: boolean;
+}

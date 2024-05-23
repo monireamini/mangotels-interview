@@ -1,4 +1,4 @@
-import {Guest, Reservation, ReservationStatus, RoomType} from "@/app/lib/types";
+import {Guest, Reservation, ReservationStatus, Room, RoomType} from "@/app/lib/types";
 
 // @todo: keep this list in redux store and update the list after creating, editing or cancelling a reservation
 export const initialReservations: Reservation[] = [
@@ -279,6 +279,39 @@ export const roomTypes: RoomType[] = [
         name: "Presidential Suite",
         baseRate: 500,
         maxOccupancy: 8,
+    },
+];
+
+export const rooms: Room[] = [
+    {
+        id: 1,
+        roomTypeId: 1, // Standard Room
+        roomNumber: 101,
+    },
+    {
+        id: 2,
+        roomTypeId: 1, // Standard Room
+        roomNumber: 102,
+    },
+    {
+        id: 3,
+        roomTypeId: 2, // Deluxe Room
+        roomNumber: 201,
+    },
+    {
+        id: 4,
+        roomTypeId: 2, // Deluxe Room
+        roomNumber: 202,
+    },
+    {
+        id: 5,
+        roomTypeId: 3, // Suite
+        roomNumber: 301,
+    },
+    {
+        id: 6,
+        roomTypeId: 4, // Presidential Suite
+        roomNumber: 401,
     },
 ];
 

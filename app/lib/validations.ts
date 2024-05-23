@@ -9,7 +9,7 @@ export const zodBoolean = z.boolean()
 /**
  * number
  */
-export const zodNumber = z.number().min(1).max(10)
+export const zodNumber = z.number().min(1)
 
 /**
  * string

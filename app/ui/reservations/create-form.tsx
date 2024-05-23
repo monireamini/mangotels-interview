@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, {useMemo} from "react";
 import {CustomerField} from '@/app/lib/definitions';
 import {DateRangePicker} from "@nextui-org/date-picker";
 import {useController, useForm} from "react-hook-form";
@@ -10,16 +10,16 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {DateValue, RangeValue} from "@nextui-org/react";
 import {
-    CheckIcon,
-    ClockIcon,
     CurrencyDollarIcon,
-    UserCircleIcon,
     MinusCircleIcon,
     PlusCircleIcon
 } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem, User} from "@nextui-org/react";
 import {Button} from "@/app/ui/button";
+import {roomTypes} from "@/app/lib/mock-data";
+import {RoomType} from "@/app/lib/types";
+import {ButtonLink} from "@/app/ui/button-link";
+import {getAvailableRoomTypes} from "@/app/lib/utility";
 
 
 export default function Form({customers}: { customers: CustomerField[] }) {
@@ -28,6 +28,7 @@ export default function Form({customers}: { customers: CustomerField[] }) {
         departure: zodString,
         adults: zodNumber,
         children: zodNumber,
+        roomTypeId: zodNumber,
     })
 
     const {
@@ -38,18 +39,26 @@ export default function Form({customers}: { customers: CustomerField[] }) {
         resolver: zodResolver(schema),
     })
 
+    // @fixme: fix TS error for name property
     const {field: arrival} = useController({control, defaultValue: "", name: "arrival"})
     const {field: departure} = useController({control, defaultValue: "", name: "departure"})
     const {field: adults} = useController({control, defaultValue: 0, name: "adults"})
     const {field: children} = useController({control, defaultValue: 0, name: "children"})
-
+    const {field: roomTypeId} = useController({control, defaultValue: null, name: "roomTypeId"})
 
     const currentDate = today(getLocalTimeZone());
     const twoMonthsLater = currentDate.add({months: 2})
 
+    const availableRoomTypes: RoomType[] = useMemo(() => getAvailableRoomTypes({
+        arrivalDate: arrival.value,
+        departureDate: departure.value,
+        adults: adults.value,
+        children: children.value
+    }), [arrival.value, departure.value, adults.value, children.value])
+
     function handleChangeDate(date: RangeValue<DateValue>) {
-        arrival.onChange(`${date.start.year}-${date.start.month}-${date.start.day}`)
-        departure.onChange(`${date.start.year}-${date.start.month}-${date.start.day}`)
+        arrival.onChange(`${date.start.year}-${String(date.start.month).padStart(2, '0')}-${String(date.start.day).padStart(2, '0')}`)
+        departure.onChange(`${date.start.year}-${String(date.start.month).padStart(2, '0')}-${String(date.start.day).padStart(2, '0')}`)
     }
 
     function handleDecrementAdults() {
@@ -71,7 +80,7 @@ export default function Form({customers}: { customers: CustomerField[] }) {
     return (
         <form>
             <div className="mb-6">
-                <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+                <label className="mb-2 block text-sm font-medium">
                     Arrival and Departure dates
                 </label>
                 <div className="md:hidden flex w-full flex-wrap md:flex-nowrap gap-4">
@@ -97,7 +106,7 @@ export default function Form({customers}: { customers: CustomerField[] }) {
             </div>
 
             <div className="mb-6">
-                <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+                <label className="mb-2 block text-sm font-medium">
                     Guests
                 </label>
 
@@ -108,7 +117,7 @@ export default function Form({customers}: { customers: CustomerField[] }) {
                         <button
                             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 text-sm outline-2 bg-white text-gray-500 text-left px-4"
                         >
-                            {adults.value + children.value ? `Guests: ${adults.value + children.value}` : `Guests`}
+                            {adults.value + children.value ? `Guests: ${adults.value + children.value}` : `Set guests`}
                         </button>
                     </DropdownTrigger>
                     {/* @todo: remove hover effect from dropdown items */}
@@ -143,6 +152,37 @@ export default function Form({customers}: { customers: CustomerField[] }) {
                 </Dropdown>
             </div>
 
+            {/* Room type*/}
+            <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium">
+                    Room type
+                </label>
+
+                <Dropdown classNames={{content: "rounded-md"}}>
+                    <DropdownTrigger>
+                        <p
+                            className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 text-sm outline-2 bg-white text-gray-500 text-left px-4 h-[36px]"
+                        >
+                            {/* @todo: show room type name instead of its id */}
+                            {/*{roomTypes.find((item) => item.id == roomTypeId.value)?.name || "Choose room type"}*/}
+                            {roomTypeId.value || "Choose room type"}
+                        </p>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                        disallowEmptySelection
+                        selectionMode="single"
+                        selectedKeys={[roomTypeId.value]}
+                        onSelectionChange={roomTypeId.onChange}
+                    >
+                        {availableRoomTypes.map((roomType) => (
+                            <DropdownItem key={roomType.id}>
+                                <p className="w-[212px]">{roomType.name}</p>
+                            </DropdownItem>
+                        ))}
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
+
             {/* Invoice Amount */}
             <div className="mb-4">
                 <label htmlFor="amount" className="handleChangeDate block text-sm font-medium">
@@ -164,52 +204,13 @@ export default function Form({customers}: { customers: CustomerField[] }) {
                 </div>
             </div>
 
-            <fieldset>
-                <legend className="handleChangeDate block text-sm font-medium">
-                    Set the invoice status
-                </legend>
-                <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-                    <div className="flex gap-4">
-                        <div className="flex items-center">
-                            <input
-                                id="pending"
-                                name="status"
-                                type="radio"
-                                value="pending"
-                                className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                            />
-                            <label
-                                htmlFor="pending"
-                                className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
-                            >
-                                Pending <ClockIcon className="h-4 w-4"/>
-                            </label>
-                        </div>
-                        <div className="flex items-center">
-                            <input
-                                id="paid"
-                                name="status"
-                                type="radio"
-                                value="paid"
-                                className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                            />
-                            <label
-                                htmlFor="paid"
-                                className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-                            >
-                                Paid <CheckIcon className="h-4 w-4"/>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
             <div className="mt-6 flex justify-between gap-4">
-                <Link
+                <ButtonLink
                     href={"/reservations"}
                     className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
-                    Cancel
-                </Link>
+                    <p className="text-gray-500">Cancel</p>
+                </ButtonLink>
                 <Button type="submit">Create Reservation</Button>
             </div>
         </form>
