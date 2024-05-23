@@ -35,7 +35,7 @@ export default function CreateReservationForm() {
         departure: zodString,
         adults: zodNumberAdults,
         children: zodNumber,
-        roomTypeId: zodNumberRoomTypeId,
+        roomTypeId: zodString,
         guests: zodGuests
     })
 
