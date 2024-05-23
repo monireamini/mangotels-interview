@@ -14,7 +14,7 @@ export function formatUnix({timestamp, formatString = "yyyy/MM/dd"}: {
 }
 
 function roomIsAvailableWithinDates({roomId, roomAvailability, arrival, departure}: {
-    roomId: number,
+    roomId: string,
     roomAvailability: AvailabilityItem[],
     arrival: string,
     departure: string
@@ -120,7 +120,7 @@ export const generateAvailabilityData = (startDate: string, endDate: string): Av
     return availabilityData;
 };
 
-export function calculateReservationRate(roomTypeId: number, arrival: string, departure: string): number {
+export function calculateReservationRate(roomTypeId: string, arrival: string, departure: string): number {
     const roomType = roomTypes.find((type) => type.id === roomTypeId);
     if (!roomType || !arrival || !departure) return 0
 

@@ -74,7 +74,7 @@ export default function ReservationsTable({reservations}: {
                                             <div
                                                 className="flex w-full items-start justify-between border-b border-gray-50 py-5 gap-2">
                                                 <div className="flex w-100 flex-col">
-                                                    <p className="text-xs">Number of guests (adults + children)</p>
+                                                    <p className="text-xs">adults + children</p>
                                                     <p className="font-medium">
                                                         {reservation.adults + " + " + reservation.children + " = " + (reservation.adults + reservation.children)}
                                                     </p>
@@ -135,7 +135,7 @@ export default function ReservationsTable({reservations}: {
                                         Room type
                                     </th>
                                     <th scope="col" className="py-5 px-2 font-medium">
-                                        Number of guests (adults + children)
+                                        adults + children
                                     </th>
                                     <th scope="col" className="py-5 px-2 font-medium">
                                         Total rate
@@ -156,7 +156,7 @@ export default function ReservationsTable({reservations}: {
                                     return (
                                         <tr key={reservation.id} className="group text-center">
                                             <td className="whitespace-nowrap bg-white rounded-l-lg py-5 px-2 text-sm">
-                                                {reservation.id.toString().slice(0, 3) + "..."}
+                                                {reservation.id.slice(0, 10) + "..."}
                                             </td>
                                             <td className="whitespace-nowrap bg-white py-5 px-2 text-sm">
                                                 {/* @todo: define a function for retrieving guest names from guestIds */}

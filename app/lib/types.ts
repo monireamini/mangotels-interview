@@ -4,7 +4,7 @@ export interface Guest {
     /**
      * unique identifier
      */
-    id: number;
+    id: string;
     /**
      * full name of the guest
      */
@@ -23,7 +23,7 @@ export interface RoomType {
     /**
      * unique identifier for the room type.
      */
-    id: number;
+    id: string;
 
     /**
      * name or description of the room type.
@@ -45,7 +45,7 @@ export interface Room {
     /**
      * unique identifier for the room
      */
-    id: number;
+    id: string;
 
     /**
      * The ID of the room type associated with this room
@@ -68,7 +68,7 @@ export interface Reservation {
     /**
      * unique identifier
      */
-    id: number;
+    id: string;
     /**
      * identifiers list of guests
      */
@@ -107,7 +107,7 @@ export interface AvailabilityItem {
     /**
      * identifier of room
      */
-    roomId: number;
+    roomId: string;
     /**
      * date of availability formatted by yyyy-MM-dd
      */
