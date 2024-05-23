@@ -4,11 +4,13 @@ import {guests, roomTypes} from "@/app/lib/mock-data";
 import {Guest, Reservation} from "@/app/lib/types";
 import {PlusIcon} from '@heroicons/react/24/outline';
 import {ButtonLink} from "@/app/ui/button-link";
-import {Modal, ModalBody, ModalContent, ModalFooter, useDisclosure} from '@nextui-org/react';
+import {Modal, ModalBody, ModalContent, ModalFooter, Pagination, useDisclosure} from '@nextui-org/react';
 import {ModalHeader} from "@nextui-org/modal";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {CANCEL_RESERVATION} from "@/app/redux/reducers/reservations-slice";
+
+const pageSize = 5
 
 export default function ReservationsTable({reservations}: {
     reservations: Reservation[];
@@ -19,6 +21,10 @@ export default function ReservationsTable({reservations}: {
     const [activeReservationId, setActiveReservationId] = useState<number>(null);
 
     const dispatch = useDispatch();
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const currentPageReservations = reservations.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
     return (
         <div className="w-full">
@@ -38,7 +44,7 @@ export default function ReservationsTable({reservations}: {
                         <div className="overflow-hidden rounded-md bg-gray-50 md:pt-0">
                             {/* for small screens */}
                             <div className="md:hidden">
-                                {reservations?.map((reservation) => {
+                                {currentPageReservations?.map((reservation) => {
                                     function handleOpenModal() {
                                         setActiveReservationId(reservation.id)
                                         onOpen()
@@ -140,7 +146,7 @@ export default function ReservationsTable({reservations}: {
                                 </thead>
 
                                 <tbody className="divide-y divide-gray-50 text-gray-900">
-                                {reservations.map((reservation) => {
+                                {currentPageReservations.map((reservation) => {
                                     function handleOpenModal() {
                                         setActiveReservationId(reservation.id)
                                         onOpen()
@@ -221,6 +227,16 @@ export default function ReservationsTable({reservations}: {
                 </ModalContent>
             </Modal>
 
+
+            <div className="mt-4">
+                <Pagination
+                    loop
+                    showControls
+                    total={Math.ceil(reservations.length / pageSize)}
+                    initialPage={1}
+                    onChange={setCurrentPage}
+                />
+            </div>
         </div>
     );
 }
