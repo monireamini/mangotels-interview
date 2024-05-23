@@ -7,7 +7,7 @@ import * as z from "zod"
 import {v4} from "uuid"
 import {zodGuests, zodNumber, zodNumberAdults, zodNumberRoomTypeId, zodString} from "@/app/lib/validations";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {getLocalTimeZone, today} from "@internationalized/date";
+import {getLocalTimeZone, parseDate, today} from "@internationalized/date";
 import {DateValue, RangeValue} from "@nextui-org/react";
 import {
     CurrencyDollarIcon,
@@ -16,19 +16,21 @@ import {
 } from "@heroicons/react/24/outline";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem, User} from "@nextui-org/react";
 import {Button} from "@/app/ui/button";
-import {Guest, ReservationStatus, RoomType} from "@/app/lib/types";
+import {Guest, Reservation, ReservationStatus, RoomType} from "@/app/lib/types";
 import {ButtonLink} from "@/app/ui/button-link";
 import {calculateReservationRate, getAvailableRoomTypes} from "@/app/lib/utility";
 import {useDispatch, useSelector} from "react-redux";
 import {roomTypes} from "@/app/lib/mock-data";
 import {useFieldError} from "@/app/hooks/use-field-error";
 import {GuestsForm} from "@/app/ui/reservations/guests-form";
-import {CREATE_RESERVATION} from "@/app/redux/reducers/reservations-slice";
+import {CREATE_RESERVATION, UPDATE_RESERVATION} from "@/app/redux/reducers/reservations-slice";
 import {useRouter} from "next/navigation";
 import {CREATE_GUEST} from "@/app/redux/reducers/guests-slice";
 
-export default function CreateReservationForm() {
+export default function CreateReservationForm({initialValue}: { initialValue?: Reservation }) {
     const router = useRouter()
+
+    const {items: initialGuests} = useSelector(store => store.guests)
 
     const schema = z.object({
         arrival: zodString,
@@ -48,12 +50,24 @@ export default function CreateReservationForm() {
     })
 
     // @fixme: fix TS error for name property
-    const {field: arrival} = useController({control, defaultValue: "", name: "arrival"})
-    const {field: departure} = useController({control, defaultValue: "", name: "departure"})
-    const {field: adults} = useController({control, defaultValue: 0, name: "adults"})
-    const {field: children} = useController({control, defaultValue: 0, name: "children"})
-    const {field: roomTypeId} = useController({control, defaultValue: undefined, name: "roomTypeId"})
-    const {field: guests} = useController({control, defaultValue: [], name: "guests"})
+    const {field: arrival} = useController({control, defaultValue: initialValue?.arrivalDate || "", name: "arrival"})
+    const {field: departure} = useController({
+        control,
+        defaultValue: initialValue?.departureDate || "",
+        name: "departure"
+    })
+    const {field: adults} = useController({control, defaultValue: initialValue?.adults || 0, name: "adults"})
+    const {field: children} = useController({control, defaultValue: initialValue?.children || 0, name: "children"})
+    const {field: roomTypeId} = useController({
+        control,
+        defaultValue: initialValue?.roomTypeId || undefined,
+        name: "roomTypeId"
+    })
+    const {field: guests} = useController({
+        control,
+        defaultValue: initialValue?.guestIds ? initialValue?.guestIds.map((guestId) => initialGuests.find((item: Guest) => item.id === guestId)) : [],
+        name: "guests"
+    })
 
     const arrivalError = useFieldError({errors, name: "arrival"})
     const adultsError = useFieldError({errors, name: "adults"})
@@ -125,11 +139,35 @@ export default function CreateReservationForm() {
             status: ReservationStatus.Confirmed,
             totalRate,
         }
-        for(const guest of guests) {
+        for (const guest of guests) {
             dispatch(CREATE_GUEST(guest))
         }
         dispatch(CREATE_RESERVATION(reservationData))
         router.push('/reservations')
+    }
+
+    function handleUpdateReservation(data: typeof schema) {
+        if (data.adults + data.children !== data.guests.length) return
+
+        const {guests, arrival, departure, ...rest} = data
+
+        const reservationData = {
+            ...rest,
+            id: initialValue?.id,
+            guestIds: data.guests.map((guest: Guest) => guest.id),
+            arrivalDate: arrival,
+            departureDate: departure,
+            status: ReservationStatus.Confirmed,
+            totalRate: initialValue?.totalRate || totalRate,
+        }
+
+        for (const guest of guests) {
+            dispatch(CREATE_GUEST(guest))
+        }
+
+        dispatch(UPDATE_RESERVATION(reservationData))
+        router.push('/reservations')
+
     }
 
     return (
@@ -144,9 +182,10 @@ export default function CreateReservationForm() {
                         <div className="md:hidden flex w-full flex-wrap md:flex-nowrap gap-4">
                             <DateRangePicker
                                 visibleMonths={1}
-                                minValue={currentDate}
-                                maxValue={twoMonthsLater}
+                                minValue={initialValue ? undefined : currentDate}
+                                maxValue={initialValue ? undefined : twoMonthsLater}
                                 onChange={handleChangeDate}
+                                defaultValue={{start: parseDate(arrival.value), end: parseDate(departure.value)}}
                                 className="peer block w-full text-sm outline-2"
                                 classNames={{inputWrapper: "bg-white pr-5 rounded-md border border-gray-200"}}
                             />
@@ -154,9 +193,10 @@ export default function CreateReservationForm() {
                         <div className="hidden md:flex w-full flex-wrap md:flex-nowrap gap-4">
                             <DateRangePicker
                                 visibleMonths={2}
-                                minValue={currentDate}
-                                maxValue={twoMonthsLater}
+                                minValue={initialValue ? undefined : currentDate}
+                                maxValue={initialValue ? undefined : twoMonthsLater}
                                 onChange={handleChangeDate}
+                                defaultValue={{start: parseDate(arrival.value), end: parseDate(departure.value)}}
                                 className="peer block w-full text-sm outline-2"
                                 classNames={{inputWrapper: "bg-white pr-5 rounded-md border border-gray-200"}}
                             />
@@ -266,7 +306,7 @@ export default function CreateReservationForm() {
                                 <div
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 >
-                                    <p>{totalRate}</p>
+                                    <p>{initialValue?.totalRate || totalRate}</p>
                                 </div>
                                 <CurrencyDollarIcon
                                     className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"/>
@@ -291,9 +331,9 @@ export default function CreateReservationForm() {
                     <p className="text-gray-500">Cancel</p>
                 </ButtonLink>
                 <Button
-                    onClick={handleSubmit(handleCreateReservation)}
+                    onClick={initialValue ? handleSubmit(handleUpdateReservation) : handleSubmit(handleCreateReservation)}
                 >
-                    Reserve
+                    {initialValue ? "Update" : "Reserve"}
                 </Button>
             </div>
         </div>

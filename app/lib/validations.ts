@@ -26,13 +26,13 @@ export const zodEmailRequired = z
 export const zodPhoneNumber = z
     .string()
     .min(1, "This field is required")
-    .min(11, "incorrectPhoneNumber")
     .max(11, "incorrectPhoneNumber")
 
 
 export const zodGuestName = z.string().min(5, "Name must be at least 5 characters long")
 
 export const zodGuest = z.object({
+    id: zodString.optional(),
     name: zodGuestName,
     email: zodEmailRequired,
     phone: zodPhoneNumber,

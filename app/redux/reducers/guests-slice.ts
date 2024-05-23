@@ -8,7 +8,9 @@ const guestsSlice = createSlice({
     },
     reducers: {
         CREATE_GUEST: (state, action) => {
-            state.items = [action.payload, ...state.items];
+            const isExisted = state.items.findIndex((item) => item.id === action.payload.id) > -1;
+            if (!isExisted)
+                state.items = [action.payload, ...state.items];
         },
     }
 });

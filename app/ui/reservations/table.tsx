@@ -9,6 +9,7 @@ import {ModalHeader} from "@nextui-org/modal";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {CANCEL_RESERVATION} from "@/app/redux/reducers/reservations-slice";
+import {useRouter} from "next/navigation";
 
 const pageSize = 5
 
@@ -20,7 +21,7 @@ export default function ReservationsTable({reservations}: {
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-    const [activeReservationId, setActiveReservationId] = useState<number | null>(null);
+    const [activeReservationId, setActiveReservationId] = useState<string | null>(null);
 
     const dispatch = useDispatch();
 
@@ -28,6 +29,7 @@ export default function ReservationsTable({reservations}: {
 
     const currentPageReservations = reservations.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
+    const router = useRouter()
     return (
         <div className="w-full">
             {/* @todo: handle search */}
@@ -51,6 +53,10 @@ export default function ReservationsTable({reservations}: {
                                         onOpen()
                                     }
 
+                                    function handleEdit() {
+                                        router.push(`/reservations/update/${reservation.id}`)
+                                    }
+
                                     return (
                                         <div
                                             key={reservation.id}
@@ -68,7 +74,7 @@ export default function ReservationsTable({reservations}: {
                                                 className="flex w-full items-start justify-between border-b border-gray-50 py-5 gap-2">
                                                 <div className="flex w-100 flex-col">
                                                     <p className="text-xs">Guest name(s)</p>
-                                                    <p className="font-medium">{reservation.guestIds.map((guestId: Guest["id"]) => initialGuests.find((guest) => guest.id === guestId)?.name || "No name").join(", ")}</p>
+                                                    <p className="font-medium">{reservation.guestIds.map((guestId: Guest["id"]) => initialGuests.find((guest: Guest) => guest.id === guestId)?.name || "No name").join(", ")}</p>
                                                 </div>
                                             </div>
                                             <div
@@ -103,7 +109,7 @@ export default function ReservationsTable({reservations}: {
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-end">
-                                                <Button className="mr-2">Edit</Button>
+                                                <Button className="mr-2" onClick={handleEdit}>Edit</Button>
                                                 <Button
                                                     className="bg-red-500 hover:bg-red-400 active:bg-red-600 focus-visible:outline-red-500"
                                                     onClick={handleOpenModal}
@@ -153,6 +159,10 @@ export default function ReservationsTable({reservations}: {
                                         onOpen()
                                     }
 
+                                    function handleEdit() {
+                                        router.push(`/reservations/update/${reservation.id}`)
+                                    }
+
                                     return (
                                         <tr key={reservation.id} className="group text-center">
                                             <td className="whitespace-nowrap bg-white rounded-l-lg py-5 px-2 text-sm">
@@ -178,7 +188,7 @@ export default function ReservationsTable({reservations}: {
                                                 ${reservation.totalRate}
                                             </td>
                                             <td className="flex justify-center whitespace-nowrap bg-white py-5 px-2 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md rounded-r-lg">
-                                                <Button className="mr-2">Edit</Button>
+                                                <Button className="mr-2" onClick={handleEdit}>Edit</Button>
                                                 <Button
                                                     className="bg-red-500 hover:bg-red-400 active:bg-red-600 focus-visible:outline-red-500"
                                                     onClick={handleOpenModal}
