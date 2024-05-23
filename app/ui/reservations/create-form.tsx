@@ -1,10 +1,10 @@
 "use client"
 
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import {DateRangePicker} from "@nextui-org/date-picker";
 import {useController, useForm} from "react-hook-form";
 import * as z from "zod"
-import {zodNumber, zodString} from "@/app/lib/validations";
+import {zodNumber, zodNumberAdults, zodNumberRoomTypeId, zodString} from "@/app/lib/validations";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {DateValue, RangeValue} from "@nextui-org/react";
@@ -20,21 +20,23 @@ import {ButtonLink} from "@/app/ui/button-link";
 import {calculateReservationRate, getAvailableRoomTypes} from "@/app/lib/utility";
 import {useSelector} from "react-redux";
 import {roomTypes} from "@/app/lib/mock-data";
+import {useFieldError} from "@/app/hooks/use-field-error";
 
 
 export default function CreateReservationForm() {
     const schema = z.object({
         arrival: zodString,
         departure: zodString,
-        adults: zodNumber,
+        adults: zodNumberAdults,
         children: zodNumber,
-        roomTypeId: zodNumber,
+        roomTypeId: zodNumberRoomTypeId,
+        // guests: array
     })
 
     const {
         control,
         handleSubmit,
-        formState: {errors},
+        formState: {errors, isSubmitting},
     } = useForm<typeof schema>({
         resolver: zodResolver(schema),
     })
@@ -44,8 +46,13 @@ export default function CreateReservationForm() {
     const {field: departure} = useController({control, defaultValue: "", name: "departure"})
     const {field: adults} = useController({control, defaultValue: 0, name: "adults"})
     const {field: children} = useController({control, defaultValue: 0, name: "children"})
-    const {field: roomTypeId} = useController({control, defaultValue: 0, name: "roomTypeId"})
+    const {field: roomTypeId} = useController({control, defaultValue: undefined, name: "roomTypeId"})
 
+    const arrivalError = useFieldError({errors, name: "arrival"})
+    const adultsError = useFieldError({errors, name: "adults"})
+    const roomTypeError = useFieldError({errors, name: "roomTypeId"})
+
+    // currently support reservation from now until two months later for keeping availability mock data in small size
     const currentDate = today(getLocalTimeZone());
     const twoMonthsLater = currentDate.add({months: 2})
 
@@ -64,26 +71,40 @@ export default function CreateReservationForm() {
     function handleChangeDate(date: RangeValue<DateValue>) {
         arrival.onChange(`${date.start.year}-${String(date.start.month).padStart(2, '0')}-${String(date.start.day).padStart(2, '0')}`)
         departure.onChange(`${date.end.year}-${String(date.end.month).padStart(2, '0')}-${String(date.end.day).padStart(2, '0')}`)
+        roomTypeId.onChange(undefined)
     }
 
     function handleDecrementAdults() {
-        if (adults.value > 0) adults.onChange(adults.value - 1)
+        if (adults.value > 0) {
+            adults.onChange(adults.value - 1)
+            roomTypeId.onChange(undefined)
+        }
     }
 
     function handleIncrementAdults() {
-        if (adults.value + children.value < 10) adults.onChange(adults.value + 1)
+        if (adults.value + children.value < 10) {
+            adults.onChange(adults.value + 1)
+            roomTypeId.onChange(undefined)
+        }
     }
 
     function handleDecrementChildren() {
-        if (children.value > 0) children.onChange(children.value - 1)
+        if (children.value > 0) {
+            children.onChange(children.value - 1)
+            roomTypeId.onChange(undefined)
+        }
     }
 
     function handleIncrementChildren() {
-        if (adults.value + children.value < 10) children.onChange(children.value + 1)
+        if (adults.value + children.value < 10) {
+            children.onChange(children.value + 1)
+            roomTypeId.onChange(undefined)
+        }
     }
 
     function handleCreateReservation(data: typeof schema) {
         console.log('data: ', data)
+        console.log('totalRate: ', totalRate)
         //
     }
 
@@ -114,6 +135,9 @@ export default function CreateReservationForm() {
                         classNames={{inputWrapper: "bg-white pr-5 rounded-md border border-gray-200"}}
                     />
                 </div>
+                <p className="mt-1 ml-1 block text-xs font-medium text-red-500">
+                    {arrivalError}
+                </p>
             </div>
 
             {/* Guests */}
@@ -162,6 +186,9 @@ export default function CreateReservationForm() {
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
+                <p className="mt-1 ml-1 block text-xs font-medium text-red-500">
+                    {adultsError}
+                </p>
             </div>
 
             {/* Room type*/}
@@ -196,6 +223,9 @@ export default function CreateReservationForm() {
                         })}
                     </DropdownMenu>
                 </Dropdown>
+                <p className="mt-1 ml-1 block text-xs font-medium text-red-500">
+                    {roomTypeError}
+                </p>
             </div>
 
             {/* Total calculated rate */}
@@ -224,7 +254,12 @@ export default function CreateReservationForm() {
                 >
                     <p className="text-gray-500">Cancel</p>
                 </ButtonLink>
-                <Button onClick={handleSubmit(handleCreateReservation)}>Create Reservation</Button>
+                <Button
+                    onClick={handleSubmit(handleCreateReservation)}
+                    className="flex-grow justify-center"
+                >
+                    Next
+                </Button>
             </div>
         </form>
     );
