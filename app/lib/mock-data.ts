@@ -180,7 +180,7 @@ export const initialReservations: Reservation[] = [
     },
 ];
 
-export const guests: Guest[] = [
+export const initialGuests: Guest[] = [
     {
         id: 1,
         name: "John Doe",

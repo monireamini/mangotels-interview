@@ -1,13 +1,13 @@
 import Search from '@/app/ui/search';
 import {Button} from "@/app/ui/button";
-import {guests, roomTypes} from "@/app/lib/mock-data";
+import {roomTypes} from "@/app/lib/mock-data";
 import {Guest, Reservation} from "@/app/lib/types";
 import {PlusIcon} from '@heroicons/react/24/outline';
 import {ButtonLink} from "@/app/ui/button-link";
 import {Modal, ModalBody, ModalContent, ModalFooter, Pagination, useDisclosure} from '@nextui-org/react';
 import {ModalHeader} from "@nextui-org/modal";
 import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {CANCEL_RESERVATION} from "@/app/redux/reducers/reservations-slice";
 
 const pageSize = 5
@@ -16,9 +16,11 @@ export default function ReservationsTable({reservations}: {
     reservations: Reservation[];
 }) {
 
+    const {items: initialGuests} = useSelector(state => state.guests)
+
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-    const [activeReservationId, setActiveReservationId] = useState<number>(null);
+    const [activeReservationId, setActiveReservationId] = useState<number | null>(null);
 
     const dispatch = useDispatch();
 
@@ -29,7 +31,6 @@ export default function ReservationsTable({reservations}: {
     return (
         <div className="w-full">
             {/* @todo: handle search */}
-            {/* @todo: handle pagination locally */}
             <div className="flex flex-row justify-between">
                 <Search placeholder="Search reservations..."/>
                 <ButtonLink href="/reservations/create" className="hidden md:flex ml-2 md:ml-4">Create a new
@@ -67,7 +68,7 @@ export default function ReservationsTable({reservations}: {
                                                 className="flex w-full items-start justify-between border-b border-gray-50 py-5 gap-2">
                                                 <div className="flex w-100 flex-col">
                                                     <p className="text-xs">Guest name(s)</p>
-                                                    <p className="font-medium">{reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId)?.name || "No name").join(", ")}</p>
+                                                    <p className="font-medium">{reservation.guestIds.map((guestId: Guest["id"]) => initialGuests.find((guest) => guest.id === guestId)?.name || "No name").join(", ")}</p>
                                                 </div>
                                             </div>
                                             <div
@@ -155,11 +156,11 @@ export default function ReservationsTable({reservations}: {
                                     return (
                                         <tr key={reservation.id} className="group text-center">
                                             <td className="whitespace-nowrap bg-white rounded-l-lg py-5 px-2 text-sm">
-                                                {reservation.id}
+                                                {reservation.id.toString().slice(0, 3) + "..."}
                                             </td>
                                             <td className="whitespace-nowrap bg-white py-5 px-2 text-sm">
                                                 {/* @todo: define a function for retrieving guest names from guestIds */}
-                                                {reservation.guestIds.map((guestId: Guest["id"]) => guests.find((guest) => guest.id === guestId)?.name || "No name").join(" | ")}
+                                                {reservation.guestIds.map((guestId: Guest["id"]) => initialGuests.find((guest: Guest) => guest.id === guestId)?.name || "No name").join(" | ")}
                                             </td>
                                             <td className="whitespace-nowrap bg-white py-5 px-2 text-sm">
                                                 {reservation.arrivalDate}

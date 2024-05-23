@@ -15,15 +15,9 @@ export const zodString = z.string().min(1, "This field is required")
 /**
  * email
  */
-export const zodEmail = z
-    .string()
-    .email("incorrectEmail")
-    .optional()
-    .or(z.literal(""))
-
 export const zodEmailRequired = z
     .string()
-    .email("incorrectEmail")
+    .email("Email is incorrect")
     .min(1, "This field is required")
 
 /**
@@ -34,3 +28,14 @@ export const zodPhoneNumber = z
     .min(1, "This field is required")
     .min(11, "incorrectPhoneNumber")
     .max(11, "incorrectPhoneNumber")
+
+
+export const zodGuestName = z.string().min(5, "Name must be at least 5 characters long")
+
+export const zodGuest = z.object({
+    name: zodGuestName,
+    email: zodEmailRequired,
+    phone: zodPhoneNumber,
+})
+
+export const zodGuests = z.array(zodGuest)
