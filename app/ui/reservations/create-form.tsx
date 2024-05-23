@@ -15,10 +15,10 @@ import {
 } from "@heroicons/react/24/outline";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem, User} from "@nextui-org/react";
 import {Button} from "@/app/ui/button";
-import {roomTypes} from "@/app/lib/mock-data";
 import {RoomType} from "@/app/lib/types";
 import {ButtonLink} from "@/app/ui/button-link";
 import {getAvailableRoomTypes} from "@/app/lib/utility";
+import {useSelector} from "react-redux";
 
 
 export default function CreateReservationForm() {
@@ -48,16 +48,19 @@ export default function CreateReservationForm() {
     const currentDate = today(getLocalTimeZone());
     const twoMonthsLater = currentDate.add({months: 2})
 
+    const {items: availabilityData} = useSelector(store => store.roomAvailability)
+
     const availableRoomTypes: RoomType[] = useMemo(() => getAvailableRoomTypes({
         arrivalDate: arrival.value,
         departureDate: departure.value,
         adults: adults.value,
-        children: children.value
-    }), [arrival.value, departure.value, adults.value, children.value])
+        children: children.value,
+        roomAvailability: availabilityData,
+    }), [arrival.value, departure.value, adults.value, children.value, availabilityData])
 
     function handleChangeDate(date: RangeValue<DateValue>) {
         arrival.onChange(`${date.start.year}-${String(date.start.month).padStart(2, '0')}-${String(date.start.day).padStart(2, '0')}`)
-        departure.onChange(`${date.start.year}-${String(date.start.month).padStart(2, '0')}-${String(date.start.day).padStart(2, '0')}`)
+        departure.onChange(`${date.end.year}-${String(date.end.month).padStart(2, '0')}-${String(date.end.day).padStart(2, '0')}`)
     }
 
     function handleDecrementAdults() {
@@ -76,8 +79,14 @@ export default function CreateReservationForm() {
         if (adults.value + children.value < 10) children.onChange(children.value + 1)
     }
 
+    function handleCreateReservation(data: typeof schema) {
+        console.log('data: ', data)
+        //
+    }
+
     return (
         <form>
+            {/* Arrival and departure dates*/}
             <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium">
                     Arrival and Departure dates
@@ -104,6 +113,7 @@ export default function CreateReservationForm() {
                 </div>
             </div>
 
+            {/* Guests */}
             <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium">
                     Guests
@@ -182,7 +192,7 @@ export default function CreateReservationForm() {
                 </Dropdown>
             </div>
 
-            {/* Invoice Amount */}
+            {/* Total calculated rate */}
             <div className="mb-4">
                 <label htmlFor="amount" className="handleChangeDate block text-sm font-medium">
                     Total rate
@@ -200,6 +210,7 @@ export default function CreateReservationForm() {
                 </div>
             </div>
 
+            {/* submit and cancel buttons */}
             <div className="mt-6 flex justify-between gap-4">
                 <ButtonLink
                     href={"/reservations"}
@@ -207,7 +218,7 @@ export default function CreateReservationForm() {
                 >
                     <p className="text-gray-500">Cancel</p>
                 </ButtonLink>
-                <Button type="submit">Create Reservation</Button>
+                <Button onClick={handleSubmit(handleCreateReservation)}>Create Reservation</Button>
             </div>
         </form>
     );

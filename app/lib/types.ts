@@ -103,8 +103,17 @@ export interface Reservation {
     status: ReservationStatus;
 }
 
-export interface AvailabilityData {
+export interface AvailabilityItem {
+    /**
+     * identifier of room
+     */
     roomId: number;
+    /**
+     * date of availability formatted by yyyy-MM-dd
+     */
     date: string;
+    /**
+     * available status of the room in the date
+     */
     available: boolean;
 }
