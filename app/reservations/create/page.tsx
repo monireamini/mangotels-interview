@@ -1,4 +1,4 @@
-import Form from "@/app/ui/reservations/create-form";
+import CreateReservationForm from "@/app/ui/reservations/create-form";
 
 export default function Page() {
     return (
@@ -7,7 +7,7 @@ export default function Page() {
                 <strong>Create a new Reservation</strong>
             </p>
             <div className="mt-4 flex grow bg-gray-50 rounded-lg px-6 py-10">
-                <Form customers={[]} />
+                <CreateReservationForm />
             </div>
         </main>
     );

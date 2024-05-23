@@ -1,7 +1,6 @@
 "use client"
 
 import React, {useMemo} from "react";
-import {CustomerField} from '@/app/lib/definitions';
 import {DateRangePicker} from "@nextui-org/date-picker";
 import {useController, useForm} from "react-hook-form";
 import * as z from "zod"
@@ -22,7 +21,7 @@ import {ButtonLink} from "@/app/ui/button-link";
 import {getAvailableRoomTypes} from "@/app/lib/utility";
 
 
-export default function Form() {
+export default function CreateReservationForm() {
     const schema = z.object({
         arrival: zodString,
         departure: zodString,
