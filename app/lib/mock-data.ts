@@ -315,3 +315,13 @@ export const rooms: Room[] = [
     },
 ];
 
+export const weekdayRates = {
+    1: 1.1, // Monday
+    2: 1.1, // Tuesday
+    3: 1.2, // Wednesday
+    4: 1.2, // Thursday
+    5: 1.3, // Friday
+    6: 1.5, // Saturday
+    0: 1.5, // Sunday
+};
+

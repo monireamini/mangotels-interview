@@ -1,4 +1,4 @@
-import {rooms, roomTypes} from "@/app/lib/mock-data";
+import {rooms, roomTypes, weekdayRates} from "@/app/lib/mock-data";
 import {AvailabilityItem, RoomType} from "@/app/lib/types";
 import {differenceInDays, format, fromUnixTime} from "date-fns";
 
@@ -105,7 +105,7 @@ export const generateAvailabilityData = (startDate: string, endDate: string): Av
         let date = startTimestamp;
         while (date <= endTimestamp) {
             // Simulate availability data
-            const available = Math.random() < 0.7; // 70% chance of being available
+            const available = Math.random() < 0.9; // 90% chance of being available
 
             availabilityData.push({
                 roomId: room.id,
@@ -119,3 +119,29 @@ export const generateAvailabilityData = (startDate: string, endDate: string): Av
 
     return availabilityData;
 };
+
+export function calculateReservationRate(roomTypeId: number, arrival: string, departure: string): number {
+    const roomType = roomTypes.find((type) => type.id === roomTypeId);
+    if (!roomType || !arrival || !departure) return 0
+
+    const nights = differenceInDays(
+        new Date(departure),
+        new Date(arrival)
+    );
+
+    let totalRate = 0;
+
+    for (let i = 0; i < nights; i++) {
+        const date = new Date(arrival);
+        date.setDate(date.getDate() + i);
+        const dayOfWeek = date.getDay();
+
+        const baseRate = roomType.baseRate;
+        const weekdayRate = weekdayRates[dayOfWeek];
+        const nightlyRate = baseRate * weekdayRate;
+
+        totalRate += nightlyRate;
+    }
+
+    return totalRate;
+}

@@ -17,8 +17,9 @@ import {Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem, 
 import {Button} from "@/app/ui/button";
 import {RoomType} from "@/app/lib/types";
 import {ButtonLink} from "@/app/ui/button-link";
-import {getAvailableRoomTypes} from "@/app/lib/utility";
+import {calculateReservationRate, getAvailableRoomTypes} from "@/app/lib/utility";
 import {useSelector} from "react-redux";
+import {roomTypes} from "@/app/lib/mock-data";
 
 
 export default function CreateReservationForm() {
@@ -43,7 +44,7 @@ export default function CreateReservationForm() {
     const {field: departure} = useController({control, defaultValue: "", name: "departure"})
     const {field: adults} = useController({control, defaultValue: 0, name: "adults"})
     const {field: children} = useController({control, defaultValue: 0, name: "children"})
-    const {field: roomTypeId} = useController({control, defaultValue: null, name: "roomTypeId"})
+    const {field: roomTypeId} = useController({control, defaultValue: 0, name: "roomTypeId"})
 
     const currentDate = today(getLocalTimeZone());
     const twoMonthsLater = currentDate.add({months: 2})
@@ -57,6 +58,8 @@ export default function CreateReservationForm() {
         children: children.value,
         roomAvailability: availabilityData,
     }), [arrival.value, departure.value, adults.value, children.value, availabilityData])
+
+    const totalRate = useMemo(() => calculateReservationRate(roomTypeId.value, arrival.value, departure.value), [arrival.value, departure.value, roomTypeId.value])
 
     function handleChangeDate(date: RangeValue<DateValue>) {
         arrival.onChange(`${date.start.year}-${String(date.start.month).padStart(2, '0')}-${String(date.start.day).padStart(2, '0')}`)
@@ -172,22 +175,25 @@ export default function CreateReservationForm() {
                         <p
                             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 text-sm outline-2 bg-white text-gray-500 text-left px-4 h-[36px]"
                         >
-                            {/* @todo: show room type name instead of its id */}
-                            {/*{roomTypes.find((item) => item.id == roomTypeId.value)?.name || "Choose room type"}*/}
-                            {roomTypeId.value || "Choose room type"}
+                            {roomTypes.find((item) => item.id == roomTypeId.value)?.name || "Choose room type"}
                         </p>
                     </DropdownTrigger>
                     <DropdownMenu
                         disallowEmptySelection
                         selectionMode="single"
                         selectedKeys={[roomTypeId.value]}
-                        onSelectionChange={roomTypeId.onChange}
                     >
-                        {availableRoomTypes.map((roomType) => (
-                            <DropdownItem key={roomType.id}>
-                                <p className="w-[212px]">{roomType.name}</p>
-                            </DropdownItem>
-                        ))}
+                        {availableRoomTypes.map((roomType) => {
+                            function handleChangeRoomTypeId() {
+                                roomTypeId.onChange(roomType.id)
+                            }
+
+                            return (
+                                <DropdownItem key={roomType.id} onClick={handleChangeRoomTypeId}>
+                                    <p className="w-[212px]">{roomType.name}</p>
+                                </DropdownItem>
+                            )
+                        })}
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -202,7 +208,7 @@ export default function CreateReservationForm() {
                         <div
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         >
-                            <p>1200!!!!</p>
+                            <p>{totalRate}</p>
                         </div>
                         <CurrencyDollarIcon
                             className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"/>
