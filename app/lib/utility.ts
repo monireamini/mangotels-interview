@@ -13,6 +13,7 @@ export function formatUnix({timestamp, formatString = "yyyy/MM/dd"}: {
     return format(fromUnixTime(timestamp), formatString)
 }
 
+// @todo: write a test for this function
 export function getAvailableRoomTypes({arrivalDate, departureDate, adults, children}: {
     arrivalDate: string,
     departureDate: string,
