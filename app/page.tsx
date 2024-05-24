@@ -26,7 +26,7 @@ export default function Page() {
 
                 <Button
                     onClick={handleClearLocalStorage}
-                    className="w-[180px] justify-center bg-amber-500 hover:bg-amber-400 active:bg-amber-600 focus-visible:outline-amber-500"
+                    className="w-[180px] justify-center bg-pink-500 hover:bg-pink-400 active:bg-pink-600 focus-visible:outline-pink-500"
                 >
                     Reset Local Storage
                 </Button>

@@ -37,7 +37,7 @@ export const initialReservations: Reservation[] = [
     {
         id: "c3d4e5f6-a7b8-4c9d-0e1f-1c2d3e4f5a6b",
         guestIds: ["d2e3f4a5-b6c7-4d8e-9f0a-0c1d2e3f4a5b", "e1f2a3b4-c5d6-4e7f-8a9b-9c0d1e2f3a4b"],
-        roomTypeId: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3b",
+        roomTypeId: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3c",
         adults: 2,
         children: 0,
         arrivalDate: "2024-06-01",
@@ -48,7 +48,7 @@ export const initialReservations: Reservation[] = [
     {
         id: "a9b0c1d2-e3f4-4a5b-6c7d-7c8d9e0f1a2b",
         guestIds: ["e1f2a3b4-c5d6-4e7f-8a9b-9c0d1e2f3a4b", "d8e9f0a1-b2c3-4d4e-5f6a-6c7d8e9f0a1b", "a1b2c3d4-e5f6-4a7b-8c9d-9c0d1e2f3a4b"],
-        roomTypeId: "e5f6a7b8-c9d0-4e1f-2a3b-3c4d5e6f7a8b",
+        roomTypeId: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3c",
         adults: 3,
         children: 0,
         arrivalDate: "2024-06-03",
@@ -58,8 +58,8 @@ export const initialReservations: Reservation[] = [
     },
     {
         id: "f4a5b6c7-d8e9-4f0a-1b2c-2c3d4e5f6a7b",
-        guestIds: ["a3b4c5d6-e7f8-4a9b-0c1d-1c2d3e4f5a6b", "b2c3d4e5-f6a7-4b8c-9d0e-0c1d2e3f4a5b", "c1d2e3f4-a5b6-4c7d-8e9f-9c0d1e2f3a4b"],
-        roomTypeId: "d0e1f2a3-b4c5-4d6e-7f8a-8c9d0e1f2a3b",
+        guestIds: ["a3b4c5d6-e7f8-4a9b-0c1d-1c2d3e4f5a6b", "a5b6c7d8-e9f0-4a1b-2c3d-3c4d5e6f7a8b", "d2e3f4a5-b6c7-4d8e-9f0a-0c1d2e3f4a5b"],
+        roomTypeId: "b0c1d2e3-f4a5-4b6c-7d8e-8c9d0e1f2a3b",
         adults: 2,
         children: 1,
         arrivalDate: "2024-06-10",
@@ -69,8 +69,8 @@ export const initialReservations: Reservation[] = [
     },
     {
         id: "e9f0a1b2-c3d4-4e5f-6a7b-7c8d9e0f1a2b",
-        guestIds: ["f8a9b0c1-d2e3-4f4a-5b6c-6c7d8e9f0a1b", "a7c9e9f8-f9c4-4f9e-8b8d-b8d7c8e9f8a7", "b6d7e8f9-a0b1-4c2d-9e3f-4c5d6e7f8a9b", "c5d6e7f8-a9b0-4c1d-8e2f-3c4d5e6f7a8b"],
-        roomTypeId: "d4e5f6a7-b8c9-4d0e-9f1f-2c3d4e5f6a7b",
+        guestIds: ["a5b6c7d8-e9f0-4a1b-2c3d-3c4d5e6f7a8b", "d2e3f4a5-b6c7-4d8e-9f0a-0c1d2e3f4a5b", "b6d7e8f9-a0b1-4c2d-9e3f-4c5d6e7f8a9b", "c5d6e7f8-a9b0-4c1d-8e2f-3c4d5e6f7a8b"],
+        roomTypeId: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3c",
         adults: 4,
         children: 0,
         arrivalDate: "2024-06-12",
@@ -90,7 +90,7 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "a7c9e9f8-f9c4-4f9e-8b8d-b8d7c8e9f8a7",
+        id: "a7c9e9f8-f9c4-4f9e-8b8d-b8d7c8e9f8a8",
         guestIds: ["b6d7e8f9-a0b1-4c2d-9e3f-4c5d6e7f8a9b"],
         roomTypeId: "e3f4a5b6-c7d8-4e9f-8f0f-1c2d3e4f5a6b",
         adults: 1,
@@ -101,7 +101,7 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "b6d7e8f9-a0b1-4c2d-9e3f-4c5d6e7f8a9b",
+        id: "b6d7e8f9-a0b1-4c2d-9e3f-4c5d6e7f8a9c",
         guestIds: ["c5d6e7f8-a9b0-4c1d-8e2f-3c4d5e6f7a8b", "d4e5f6a7-b8c9-4d0e-9f1f-2c3d4e5f6a7b", "a1b2c3d4-e5f6-4a7b-8c9d-9c0d1e2f3a4b", "d8e9f0a1-b2c3-4d4e-5f6a-6c7d8e9f0a1b"],
         roomTypeId: "b4c5d6e7-f8a9-4b0c-1d2e-2c3d4e5f6a7b",
         adults: 3,
@@ -112,7 +112,7 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "c5d6e7f8-a9b0-4c1d-8e2f-3c4d5e6f7a8b",
+        id: "c5d6e7f8-a9b0-4c1d-8e2f-3c4d5e6f7a82",
         guestIds: ["e7f8a9b0-c1d2-4e3f-4a5b-5c6d7e8f9a0b", "f6a7b8c9-d0e1-4f2f-3b4c-4c5d6e7f8a9b"],
         roomTypeId: "b0c1d2e3-f4a5-4b6c-7d8e-8c9d0e1f2a3b",
         adults: 2,
@@ -123,7 +123,7 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "d4e5f6a7-b8c9-4d0e-9f1f-2c3d4e5f6a7b",
+        id: "d4e5f6a7-b8c9-4d0e-9f1f-2c3d4e5f6a7f",
         guestIds: ["a5b6c7d8-e9f0-4a1b-2c3d-3c4d5e6f7a8b"],
         roomTypeId: "e3f4a5b6-c7d8-4e9f-8f0f-1c2d3e4f5a6b",
         adults: 1,
@@ -134,7 +134,7 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "e3f4a5b6-c7d8-4e9f-8f0f-1c2d3e4f5a6b",
+        id: "e3f4a5b6-c7d8-4e9f-8f0f-1c2d3e4f5a6a",
         guestIds: ["d2e3f4a5-b6c7-4d8e-9f0a-0c1d2e3f4a5b", "e1f2a3b4-c5d6-4e7f-8a9b-9c0d1e2f3a4b", "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3b"],
         roomTypeId: "b4c5d6e7-f8a9-4b0c-1d2e-2c3d4e5f6a7b",
         adults: 2,
@@ -145,9 +145,9 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "b0c1d2e3-f4a5-4b6c-7d8e-8c9d0e1f2a3b",
+        id: "b0c1d2e3-f4a5-4b6c-7d8e-8c9d0e1f2a33",
         guestIds: ["b6d7e8f9-a0b1-4c2d-9e3f-4c5d6e7f8a9b", "c5d6e7f8-a9b0-4c1d-8e2f-3c4d5e6f7a8b", "d4e5f6a7-b8c9-4d0e-9f1f-2c3d4e5f6a7b", "a1b2c3d4-e5f6-4a7b-8c9d-9c0d1e2f3a4b"],
-        roomTypeId: "d4e5f6a7-b8c9-4d0e-9f1f-2c3d4e5f6a7b",
+        roomTypeId: "e3f4a5b6-c7d8-4e9f-8f0f-1c2d3e4f5a6b",
         adults: 4,
         children: 0,
         arrivalDate: "2024-07-01",
@@ -156,7 +156,7 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "b4c5d6e7-f8a9-4b0c-1d2e-2c3d4e5f6a7b",
+        id: "b4c5d6e7-f8a9-4b0c-1d2e-2c3d4e5f6a7d",
         guestIds: ["d8e9f0a1-b2c3-4d4e-5f6a-6c7d8e9f0a1b", "e7f8a9b0-c1d2-4e3f-4a5b-5c6d7e8f9a0b"],
         roomTypeId: "b0c1d2e3-f4a5-4b6c-7d8e-8c9d0e1f2a3b",
         adults: 2,
@@ -167,7 +167,7 @@ export const initialReservations: Reservation[] = [
         status: ReservationStatus.Confirmed,
     },
     {
-        id: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3b",
+        id: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3f",
         guestIds: ["f6a7b8c9-d0e1-4f2f-3b4c-4c5d6e7f8a9b"],
         roomTypeId: "e3f4a5b6-c7d8-4e9f-8f0f-1c2d3e4f5a6b",
         adults: 1,
@@ -274,7 +274,7 @@ export const roomTypes: RoomType[] = [
         maxOccupancy: 6,
     },
     {
-        id: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3b",
+        id: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3c",
         name: "Presidential Suite",
         baseRate: 500,
         maxOccupancy: 8,
@@ -309,7 +309,7 @@ export const rooms: Room[] = [
     },
     {
         id: "d2e3f4a5-b6c7-4d8e-9f0a-0c1d2e3f4a5b",
-        roomTypeId: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3b", // Presidential Suite
+        roomTypeId: "f0a1b2c3-d4e5-4f6a-7b8c-8c9d0e1f2a3c", // Presidential Suite
         roomNumber: 401,
     },
 ];
