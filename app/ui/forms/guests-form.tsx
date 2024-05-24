@@ -8,6 +8,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useFieldError} from "@/app/hooks/use-field-error";
 import {Chip} from '@nextui-org/react';
 import {Input} from "@/app/ui/form-fields/input";
+import {CloseIcon} from "@nextui-org/shared-icons";
+import {Guest} from "@/app/lib/definitions";
 
 export const GuestsForm = ({numOfGuests, guests, onChangeGuests}: {
     numOfGuests: number,
@@ -55,9 +57,23 @@ export const GuestsForm = ({numOfGuests, guests, onChangeGuests}: {
                 </label>
 
                 <div className="flex flex-row flex-wrap">
-                    {guests.map((guest: any) => (
-                        <Chip key={guest.id} className="mr-1 mb-2" color="primary">{guest.name}</Chip>
-                    ))}
+                    {guests.map((guest: Guest) => {
+                        function handleRemoveGuest() {
+                            onChangeGuests(guests.filter(item => item.id !== guest.id))
+                        }
+
+                        return (
+                            <Chip key={guest.id} className="mr-1 mb-2 h-[40px] pr-0 pl-3" color="primary">
+                                <div className="flex flex-row center justify-between items-center">
+                                    <p>{guest.name}</p>
+                                    <div className="self-center p-2 ml-2 rounded-full hover:bg-red-600"
+                                         onClick={handleRemoveGuest}>
+                                        <CloseIcon className="w-4 h-4"/>
+                                    </div>
+                                </div>
+                            </Chip>
+                        )
+                    })}
                 </div>
                 {guests.length < numOfGuests && (
                     <>
