@@ -7,11 +7,7 @@ import {NextUIProvider} from "@nextui-org/react";
 import {Provider} from "react-redux";
 import store from "@/app/redux/store";
 
-export default function RootLayout({
-                                       children,
-                                   }: {
-    children: React.ReactNode;
-}) {
+export default function RootLayout({children}: { children: React.ReactNode }) {
     return (
         <html lang="en">
         <body className={`${dmsans.className} antialiased`}>

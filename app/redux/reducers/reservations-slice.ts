@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {initialReservations} from "@/app/lib/mock-data";
+import {initialReservations} from "@/app/lib/placeholder-data";
 
 // @todo: use redux persist
 // @todo: use hash map for optimizing accessing and updating process

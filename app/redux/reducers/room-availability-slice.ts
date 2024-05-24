@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {generateAvailabilityData} from "@/app/lib/utility";
+import {generateAvailabilityData} from "@/app/lib/utils";
 
 const roomAvailabilitySlice = createSlice({
     name: 'roomAvailability',

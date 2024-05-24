@@ -3,7 +3,7 @@
 import CreateReservationForm from "@/app/ui/reservations/create-form";
 import {useSelector} from "react-redux";
 import {useMemo} from "react";
-import {Reservation} from "@/app/lib/types";
+import {Reservation} from "@/app/lib/definitions";
 
 export default function Page({params}: { params: { reservationId: string } }) {
     const {items: reservations} = useSelector(store => store.reservations)

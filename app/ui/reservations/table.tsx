@@ -1,7 +1,7 @@
 import Search from '@/app/ui/search';
 import {Button} from "@/app/ui/button";
-import {roomTypes} from "@/app/lib/mock-data";
-import {Guest, Reservation} from "@/app/lib/types";
+import {roomTypes} from "@/app/lib/placeholder-data";
+import {Guest, Reservation} from "@/app/lib/definitions";
 import {PlusIcon} from '@heroicons/react/24/outline';
 import {ButtonLink} from "@/app/ui/button-link";
 import {Modal, ModalBody, ModalContent, ModalFooter, Pagination, useDisclosure} from '@nextui-org/react';
@@ -35,9 +35,9 @@ export default function ReservationsTable({reservations}: {
             {/* @todo: handle search */}
             <div className="flex flex-row justify-between">
                 <Search placeholder="Search reservations..."/>
-                <ButtonLink href="/reservations/create" className="hidden md:flex ml-2 md:ml-4">Create a new
+                <ButtonLink href="/create" className="hidden md:flex ml-2 md:ml-4">Create a new
                     reservation</ButtonLink>
-                <ButtonLink href="/reservations/create" className="md:hidden ml-2 md:ml-4">
+                <ButtonLink href="/create" className="md:hidden ml-2 md:ml-4">
                     <PlusIcon className="h-[18px] w-[18px]"/>
                 </ButtonLink>
             </div>
@@ -54,7 +54,7 @@ export default function ReservationsTable({reservations}: {
                                     }
 
                                     function handleEdit() {
-                                        router.push(`/reservations/update/${reservation.id}`)
+                                        router.push(`/update/${reservation.id}`)
                                     }
 
                                     return (
@@ -160,7 +160,7 @@ export default function ReservationsTable({reservations}: {
                                     }
 
                                     function handleEdit() {
-                                        router.push(`/reservations/update/${reservation.id}`)
+                                        router.push(`/update/${reservation.id}`)
                                     }
 
                                     return (

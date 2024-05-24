@@ -1,4 +1,4 @@
-import {Guest, Reservation, ReservationStatus, Room, RoomType} from "@/app/lib/types";
+import {Guest, Reservation, ReservationStatus, Room, RoomType} from "@/app/lib/definitions";
 
 export const initialReservations: Reservation[] = [
     {
@@ -314,7 +314,7 @@ export const rooms: Room[] = [
     },
 ];
 
-export const weekdayRates = {
+export const weekdayRates: {[key: number]: number} = {
     1: 1.1, // Monday
     2: 1.1, // Tuesday
     3: 1.2, // Wednesday

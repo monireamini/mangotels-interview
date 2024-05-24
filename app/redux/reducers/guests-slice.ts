@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {initialGuests} from "@/app/lib/mock-data";
+import {initialGuests} from "@/app/lib/placeholder-data";
 
 const guestsSlice = createSlice({
     name: 'guests',

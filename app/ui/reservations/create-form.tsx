@@ -15,11 +15,11 @@ import {
 } from "@heroicons/react/24/outline";
 import {DateRangePicker, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/react";
 import {Button} from "@/app/ui/button";
-import {Guest, Reservation, ReservationStatus, RoomType} from "@/app/lib/types";
+import {Guest, Reservation, ReservationStatus, RoomType} from "@/app/lib/definitions";
 import {ButtonLink} from "@/app/ui/button-link";
-import {calculateReservationRate, getAvailableRoomTypes} from "@/app/lib/utility";
+import {calculateReservationRate, getAvailableRoomTypes} from "@/app/lib/utils";
 import {useDispatch, useSelector} from "react-redux";
-import {roomTypes} from "@/app/lib/mock-data";
+import {roomTypes} from "@/app/lib/placeholder-data";
 import {useFieldError} from "@/app/hooks/use-field-error";
 import {GuestsForm} from "@/app/ui/reservations/guests-form";
 import {CREATE_RESERVATION, UPDATE_RESERVATION} from "@/app/redux/reducers/reservations-slice";
@@ -321,7 +321,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
             <div className="mt-6 h-[0.5px] w-[300%] bg-gray-300"/>
             <div className="mt-6 flex justify-start gap-4">
                 <ButtonLink
-                    href={"/reservations"}
+                    href={"/"}
                     className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
                     <p className="text-gray-500">Cancel</p>
