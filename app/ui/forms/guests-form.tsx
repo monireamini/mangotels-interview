@@ -7,6 +7,7 @@ import {useController, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useFieldError} from "@/app/hooks/use-field-error";
 import {Chip} from '@nextui-org/react';
+import {Input} from "@/app/ui/input";
 
 export const GuestsForm = ({numOfGuests, guests, onChangeGuests}: {
     numOfGuests: number,
@@ -60,45 +61,9 @@ export const GuestsForm = ({numOfGuests, guests, onChangeGuests}: {
                 </div>
                 {guests.length < numOfGuests && (
                     <>
-                        <input
-                            id="name"
-                            name="name"
-                            type="string"
-                            placeholder="Name"
-                            value={name.value}
-                            onChange={e => name.onChange(e.target.value)}
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                        />
-                        <p className="mb-2 mt-1 ml-1 block text-xs font-medium text-red-500">
-                            {nameError}
-                        </p>
-
-                        <input
-                            id="email"
-                            name="email"
-                            type="string"
-                            placeholder="Email"
-                            value={email.value}
-                            onChange={e => email.onChange(e.target.value)}
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                        />
-                        <p className="mb-2 mt-1 ml-1 block text-xs font-medium text-red-500">
-                            {emailError}
-                        </p>
-
-                        <input
-                            id="phone"
-                            name="phone"
-                            type="number"
-                            placeholder="Phone number"
-                            value={phone.value}
-                            maxLength={11}
-                            onChange={e => phone.onChange(e.target.value)}
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                        />
-                        <p className="mb-2 mt-1 ml-1 block text-xs font-medium text-red-500">
-                            {phoneError}
-                        </p>
+                        <Input field={name} error={nameError} placeholder="Name"/>
+                        <Input field={email} error={emailError} placeholder="Email"/>
+                        <Input field={phone} error={phoneError} placeholder="Phone number"/>
 
                         <Button
                             onClick={handleSubmit(handleAddGuest)}

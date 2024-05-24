@@ -21,7 +21,7 @@ import {calculateReservationRate, getAvailableRoomTypes} from "@/app/lib/utils";
 import {useDispatch, useSelector} from "react-redux";
 import {roomTypes} from "@/app/lib/placeholder-data";
 import {useFieldError} from "@/app/hooks/use-field-error";
-import {GuestsForm} from "@/app/ui/guests-form";
+import {GuestsForm} from "@/app/ui/forms/guests-form";
 import {CREATE_RESERVATION, UPDATE_RESERVATION} from "@/app/redux/reducers/reservations-slice";
 import {useRouter} from "next/navigation";
 import {CREATE_GUEST} from "@/app/redux/reducers/guests-slice";
@@ -142,7 +142,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
             dispatch(CREATE_GUEST(guest))
         }
         dispatch(CREATE_RESERVATION(reservationData))
-        router.push('/reservations')
+        router.push('/')
     }
 
     function handleUpdateReservation(data: any) {
@@ -165,7 +165,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
         }
 
         dispatch(UPDATE_RESERVATION(reservationData))
-        router.push('/reservations')
+        router.push('/')
 
     }
 
