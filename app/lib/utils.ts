@@ -2,7 +2,7 @@ import {rooms, roomTypes, weekdayRates} from "@/app/lib/placeholder-data";
 import {AvailabilityItem, RoomType} from "@/app/lib/definitions";
 import {differenceInDays, format, fromUnixTime} from "date-fns";
 
-export const serverDateToTimestamp = ({date}: { date: string }) => {
+export const dateStringToTimestamp = ({date}: { date: string }) => {
     return new Date(date).getTime() / 1000
 }
 
@@ -13,14 +13,14 @@ export function formatUnix({timestamp, formatString = "yyyy/MM/dd"}: {
     return format(fromUnixTime(timestamp), formatString)
 }
 
-function roomIsAvailableWithinDates({roomId, roomAvailability, arrival, departure}: {
+function checkRoomAvailability({roomId, roomAvailability, arrival, departure}: {
     roomId: string,
     roomAvailability: AvailabilityItem[],
     arrival: string,
     departure: string
 }): boolean {
     const thisRoomAvailability = roomAvailability.filter((item) => item.roomId === roomId)
-    const arrivalTimestamp = serverDateToTimestamp({date: arrival})
+    const arrivalTimestamp = dateStringToTimestamp({date: arrival})
     const numDays = differenceInDays(
         new Date(departure),
         new Date(arrival)
@@ -38,7 +38,7 @@ function roomIsAvailableWithinDates({roomId, roomAvailability, arrival, departur
     return true
 }
 
-function isAtLeastOneRoomAvailableOfGivenRoomType({roomType, roomAvailability, arrivalDate, departureDate}: {
+function isRoomTypeAvailable({roomType, roomAvailability, arrivalDate, departureDate}: {
     roomType: RoomType,
     roomAvailability: AvailabilityItem[],
     arrivalDate: string
@@ -48,7 +48,7 @@ function isAtLeastOneRoomAvailableOfGivenRoomType({roomType, roomAvailability, a
     let oneRoomIsAvailable = false;
 
     for (const room of rooms.filter((room) => room.roomTypeId === roomType.id)) {
-        const roomIsAvailable = roomIsAvailableWithinDates({
+        const roomIsAvailable = checkRoomAvailability({
             roomId: room.id,
             roomAvailability,
             arrival: arrivalDate,
@@ -84,7 +84,7 @@ export function getAvailableRoomTypes({arrivalDate, departureDate, adults, child
 
     // Check availability for each eligible room type
     for (const roomType of eligibleRoomTypes) {
-        const atLeastOneAvailableRoom = isAtLeastOneRoomAvailableOfGivenRoomType({
+        const atLeastOneAvailableRoom = isRoomTypeAvailable({
             roomType,
             roomAvailability,
             arrivalDate,
@@ -99,8 +99,8 @@ export function getAvailableRoomTypes({arrivalDate, departureDate, adults, child
 export const generateAvailabilityData = (startDate: string, endDate: string): AvailabilityItem[] => {
     const availabilityData: AvailabilityItem[] = [];
 
-    const startTimestamp = serverDateToTimestamp({date: startDate});
-    const endTimestamp = serverDateToTimestamp({date: endDate});
+    const startTimestamp = dateStringToTimestamp({date: startDate});
+    const endTimestamp = dateStringToTimestamp({date: endDate});
 
     for (const room of rooms) {
         let date = startTimestamp;
