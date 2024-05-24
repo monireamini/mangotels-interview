@@ -1,6 +1,6 @@
 "use client"
 
-import CreateReservationForm from "@/app/ui/reservations/create-form";
+import CreateReservationForm from "@/app/ui/create-form";
 import {useSelector} from "react-redux";
 import {useMemo} from "react";
 import {Reservation} from "@/app/lib/definitions";

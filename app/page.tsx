@@ -1,6 +1,6 @@
 "use client"
 
-import ReservationsTable from "@/app/ui/reservations/table";
+import ReservationsTable from "@/app/ui/table";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/redux/store";
 

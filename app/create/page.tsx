@@ -1,4 +1,4 @@
-import CreateReservationForm from "@/app/ui/reservations/create-form";
+import CreateReservationForm from "@/app/ui/create-form";
 
 export default function Page() {
     return (

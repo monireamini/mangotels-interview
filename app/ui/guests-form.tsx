@@ -3,7 +3,7 @@ import {Button} from "@/app/ui/button";
 import * as z from "zod";
 import {v4} from "uuid";
 import {zodEmailRequired, zodGuestName, zodPhoneNumber} from "@/app/lib/validations";
-import {FieldValue, FieldValues, useController, useForm} from "react-hook-form";
+import {useController, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useFieldError} from "@/app/hooks/use-field-error";
 import {Chip} from '@nextui-org/react';

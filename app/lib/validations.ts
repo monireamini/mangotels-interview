@@ -28,6 +28,9 @@ export const zodPhoneNumber = z
     .max(11, "Incorrect phone number")
 
 
+/**
+ * guest
+ */
 export const zodGuestName = z.string().min(5, "Name must be at least 5 characters long")
 
 export const zodGuest = z.object({
