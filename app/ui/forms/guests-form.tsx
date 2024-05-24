@@ -7,7 +7,7 @@ import {useController, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useFieldError} from "@/app/hooks/use-field-error";
 import {Chip} from '@nextui-org/react';
-import {Input} from "@/app/ui/input";
+import {Input} from "@/app/ui/form-fields/input";
 
 export const GuestsForm = ({numOfGuests, guests, onChangeGuests}: {
     numOfGuests: number,
