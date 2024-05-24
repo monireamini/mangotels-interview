@@ -12,8 +12,11 @@ const guestsSlice = createSlice({
             if (!isExisted)
                 state.items = [action.payload, ...state.items];
         },
+        RESET_GUESTS: (state) => {
+            state.items = initialGuests
+        },
     }
 });
 
-export const {CREATE_GUEST} = guestsSlice.actions;
+export const {CREATE_GUEST, RESET_GUESTS} = guestsSlice.actions;
 export default guestsSlice.reducer;

@@ -19,9 +19,17 @@ const reservationsSlice = createSlice({
 
         CANCEL_RESERVATION: (state, action) => {
             state.items = state.items.filter(item => item.id !== action.payload);
-        }
+        },
+        RESET_RESERVATIONS: (state) => {
+            state.items = initialReservations
+        },
     }
 });
 
-export const {CREATE_RESERVATION, UPDATE_RESERVATION, CANCEL_RESERVATION} = reservationsSlice.actions;
+export const {
+    CREATE_RESERVATION,
+    UPDATE_RESERVATION,
+    CANCEL_RESERVATION,
+    RESET_RESERVATIONS
+} = reservationsSlice.actions;
 export default reservationsSlice.reducer;
