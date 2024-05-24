@@ -213,7 +213,6 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
                         </label>
 
                         {/*@todo: remove global @nextui-org/react and add only used components*/}
-                        {/*@todo: customize drop down menu style */}
                         <Dropdown classNames={{content: "rounded-md"}}>
                             <DropdownTrigger>
                                 <button
@@ -222,7 +221,6 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
                                     {adults.value + children.value ? `Guests: ${adults.value + children.value}` : `Set guests`}
                                 </button>
                             </DropdownTrigger>
-                            {/* @todo: remove hover effect from dropdown items */}
                             <DropdownMenu closeOnSelect={false}>
                                 <DropdownItem key="adults">
                                     <div className="flex flex-row justify-between align-middle">

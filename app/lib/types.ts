@@ -1,5 +1,3 @@
-// @todo: use UUID for identifier fields
-
 export interface Guest {
     /**
      * unique identifier

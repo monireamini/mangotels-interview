@@ -1,6 +1,5 @@
 import {Guest, Reservation, ReservationStatus, Room, RoomType} from "@/app/lib/types";
 
-// @todo: keep this list in redux store and update the list after creating, editing or cancelling a reservation
 export const initialReservations: Reservation[] = [
     {
         id: "a7c9e9f8-f9c4-4f9e-8b8d-b8d7c8e9f8a7",
