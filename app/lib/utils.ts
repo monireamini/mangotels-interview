@@ -1,5 +1,5 @@
-import {rooms, roomTypes, weekdayRates} from "@/app/lib/placeholder-data";
-import {AvailabilityItem, RoomType} from "@/app/lib/definitions";
+import {roomTypes, weekdayRates} from "@/app/lib/placeholder-data";
+import {AvailabilityItem, Room, RoomType} from "@/app/lib/definitions";
 import {differenceInDays, format, fromUnixTime} from "date-fns";
 
 export const dateStringToTimestamp = ({date}: { date: string }) => {
@@ -38,7 +38,8 @@ function checkRoomAvailability({roomId, roomAvailability, arrival, departure}: {
     return true
 }
 
-function isRoomTypeAvailable({roomType, roomAvailability, arrivalDate, departureDate}: {
+function isRoomTypeAvailable({rooms, roomType, roomAvailability, arrivalDate, departureDate}: {
+    rooms: Room[],
     roomType: RoomType,
     roomAvailability: AvailabilityItem[],
     arrivalDate: string
@@ -64,11 +65,12 @@ function isRoomTypeAvailable({roomType, roomAvailability, arrivalDate, departure
     return oneRoomIsAvailable
 }
 
-export function getAvailableRoomTypes({arrivalDate, departureDate, adults, children, roomAvailability}: {
+export function getAvailableRoomTypes({arrivalDate, departureDate, adults, children, rooms, roomAvailability}: {
     arrivalDate: string,
     departureDate: string,
     adults: number,
     children: number,
+    rooms: Room[]
     roomAvailability: AvailabilityItem[]
 }) {
     const availableRoomTypes: RoomType[] = [];
@@ -85,6 +87,7 @@ export function getAvailableRoomTypes({arrivalDate, departureDate, adults, child
     // Check availability for each eligible room type
     for (const roomType of eligibleRoomTypes) {
         const atLeastOneAvailableRoom = isRoomTypeAvailable({
+            rooms,
             roomType,
             roomAvailability,
             arrivalDate,
@@ -96,7 +99,7 @@ export function getAvailableRoomTypes({arrivalDate, departureDate, adults, child
     return availableRoomTypes;
 }
 
-export const generateAvailabilityData = (startDate: string, endDate: string): AvailabilityItem[] => {
+export const generateAvailabilityData = (rooms: Room[], startDate: string, endDate: string): AvailabilityItem[] => {
     const availabilityData: AvailabilityItem[] = [];
 
     const startTimestamp = dateStringToTimestamp({date: startDate});

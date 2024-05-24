@@ -23,6 +23,7 @@ import {DatePicker} from "@/app/ui/form-fields/date-picker";
 import {GuestsDropdown} from "@/app/ui/form-fields/guests-dropdown";
 import {RoomTypeDropdown} from "@/app/ui/form-fields/room-type-dropdown";
 import {TotalRate} from "@/app/ui/form-fields/total-rate";
+import {rooms} from "@/app/lib/placeholder-data";
 
 export default function CreateReservationForm({initialValue}: { initialValue?: Reservation }) {
     const router = useRouter()
@@ -80,6 +81,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
         departureDate: departure.value,
         adults: adults.value,
         children: children.value,
+        rooms,
         roomAvailability: availabilityData,
     }), [arrival.value, departure.value, adults.value, children.value, availabilityData])
 
