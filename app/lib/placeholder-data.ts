@@ -47,7 +47,7 @@ export const initialReservations: Reservation[] = [
     },
     {
         id: "a9b0c1d2-e3f4-4a5b-6c7d-7c8d9e0f1a2b",
-        guestIds: ["b8c9d0e1-f2a3-4b4c-5d6e-6c7d8e9f0a1b", "c7d8e9f0-a1b2-4c3d-4e5f-5c6d7e8f9a0b", "d6e7f8a9-b0c1-4d2e-3f4a-4c5d6e7f8a9b"],
+        guestIds: ["e1f2a3b4-c5d6-4e7f-8a9b-9c0d1e2f3a4b", "d8e9f0a1-b2c3-4d4e-5f6a-6c7d8e9f0a1b", "a1b2c3d4-e5f6-4a7b-8c9d-9c0d1e2f3a4b"],
         roomTypeId: "e5f6a7b8-c9d0-4e1f-2a3b-3c4d5e6f7a8b",
         adults: 3,
         children: 0,
