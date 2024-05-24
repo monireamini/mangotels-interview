@@ -19,6 +19,7 @@ function roomIsAvailableWithinDates({roomId, roomAvailability, arrival, departur
     arrival: string,
     departure: string
 }): boolean {
+    const thisRoomAvailability = roomAvailability.filter((item) => item.roomId === roomId)
     const arrivalTimestamp = serverDateToTimestamp({date: arrival})
     const numDays = differenceInDays(
         new Date(departure),
@@ -28,7 +29,7 @@ function roomIsAvailableWithinDates({roomId, roomAvailability, arrival, departur
     for (let i = 0; i < numDays; i++) {
         const checkTimestamp = arrivalTimestamp + i * 24 * 60 * 60
         const checkDate = formatUnix({timestamp: checkTimestamp})
-        const availability = roomAvailability.find((item) => item.date === checkDate)
+        const availability = thisRoomAvailability.find((item) => item.date === checkDate)
         if (!availability?.available) {
             return false
         }
@@ -49,7 +50,7 @@ function isAtLeastOneRoomAvailableOfGivenRoomType({roomType, roomAvailability, a
     for (const room of rooms.filter((room) => room.roomTypeId === roomType.id)) {
         const roomIsAvailable = roomIsAvailableWithinDates({
             roomId: room.id,
-            roomAvailability: roomAvailability.filter((item) => item.roomId === room.id),
+            roomAvailability,
             arrival: arrivalDate,
             departure: departureDate
         })
