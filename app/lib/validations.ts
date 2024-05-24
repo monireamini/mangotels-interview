@@ -5,7 +5,6 @@ import * as z from "zod"
  */
 export const zodNumber = z.number()
 export const zodNumberAdults = z.number().min(1, "At least one adult guest is required")
-export const zodNumberRoomTypeId = z.number().min(1, "This field is required")
 
 /**
  * string
@@ -26,7 +25,7 @@ export const zodEmailRequired = z
 export const zodPhoneNumber = z
     .string()
     .min(1, "This field is required")
-    .max(11, "incorrectPhoneNumber")
+    .max(11, "Incorrect phone number")
 
 
 export const zodGuestName = z.string().min(5, "Name must be at least 5 characters long")

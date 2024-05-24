@@ -10,7 +10,6 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.4.2",
-    "@nextui-org/date-picker": "^2.0.7",
     "@nextui-org/react": "^2.3.6",
     "@nextui-org/system": "^2.1.2",
     "@nextui-org/theme": "^2.2.3",

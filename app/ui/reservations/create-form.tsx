@@ -1,11 +1,10 @@
 "use client"
 
 import React, {useMemo} from "react";
-import {DateRangePicker} from "@nextui-org/date-picker";
 import {useController, useForm} from "react-hook-form";
 import * as z from "zod"
 import {v4} from "uuid"
-import {zodGuests, zodNumber, zodNumberAdults, zodNumberRoomTypeId, zodString} from "@/app/lib/validations";
+import {zodGuests, zodNumber, zodNumberAdults, zodString} from "@/app/lib/validations";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {getLocalTimeZone, parseDate, today} from "@internationalized/date";
 import {DateValue, RangeValue} from "@nextui-org/react";
@@ -14,7 +13,7 @@ import {
     MinusCircleIcon,
     PlusCircleIcon
 } from "@heroicons/react/24/outline";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem, User} from "@nextui-org/react";
+import {DateRangePicker, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/react";
 import {Button} from "@/app/ui/button";
 import {Guest, Reservation, ReservationStatus, RoomType} from "@/app/lib/types";
 import {ButtonLink} from "@/app/ui/button-link";
@@ -185,7 +184,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
                                 minValue={initialValue ? undefined : currentDate}
                                 maxValue={initialValue ? undefined : twoMonthsLater}
                                 onChange={handleChangeDate}
-                                defaultValue={{start: parseDate(arrival.value), end: parseDate(departure.value)}}
+                                defaultValue={initialValue ? {start: parseDate(arrival.value), end: parseDate(departure.value)} : undefined}
                                 className="peer block w-full text-sm outline-2"
                                 classNames={{inputWrapper: "bg-white pr-5 rounded-md border border-gray-200"}}
                             />
@@ -196,7 +195,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
                                 minValue={initialValue ? undefined : currentDate}
                                 maxValue={initialValue ? undefined : twoMonthsLater}
                                 onChange={handleChangeDate}
-                                defaultValue={{start: parseDate(arrival.value), end: parseDate(departure.value)}}
+                                defaultValue={initialValue ? {start: parseDate(arrival.value), end: parseDate(departure.value)} : undefined}
                                 className="peer block w-full text-sm outline-2"
                                 classNames={{inputWrapper: "bg-white pr-5 rounded-md border border-gray-200"}}
                             />
@@ -212,7 +211,6 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
                             Guests
                         </label>
 
-                        {/*@todo: remove global @nextui-org/react and add only used components*/}
                         <Dropdown classNames={{content: "rounded-md"}}>
                             <DropdownTrigger>
                                 <button

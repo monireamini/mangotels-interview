@@ -688,7 +688,7 @@
     "@react-types/datepicker" "^3.7.2"
     "@react-types/shared" "3.21.0"
 
-"@nextui-org/date-picker@2.0.7", "@nextui-org/date-picker@^2.0.7":
+"@nextui-org/date-picker@2.0.7":
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/@nextui-org/date-picker/-/date-picker-2.0.7.tgz#fe782b21ac11eb2ce0fffc9a86cbb068a09bca5e"
   integrity sha512-03Jys6JMthgX1BMW9R1MKPkHkoetXf4bYZRETAXU5Y9cY1TcosY0FiDEwAUCjlusYOq2UWMRYH4q83tCmir6ag==
