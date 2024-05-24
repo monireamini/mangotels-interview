@@ -2,9 +2,10 @@
 
 import ReservationsTable from "@/app/ui/reservations/table";
 import {useSelector} from "react-redux";
+import {RootState} from "@/app/redux/store";
 
 export default function Page() {
-    const {items: reservations} = useSelector(state => state.reservations)
+    const {items: reservations} = useSelector((store: RootState) => store.reservations)
 
     return (
         <main className="flex min-h-screen flex-col p-6">

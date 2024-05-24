@@ -25,11 +25,12 @@ import {GuestsForm} from "@/app/ui/reservations/guests-form";
 import {CREATE_RESERVATION, UPDATE_RESERVATION} from "@/app/redux/reducers/reservations-slice";
 import {useRouter} from "next/navigation";
 import {CREATE_GUEST} from "@/app/redux/reducers/guests-slice";
+import {RootState} from "@/app/redux/store";
 
 export default function CreateReservationForm({initialValue}: { initialValue?: Reservation }) {
     const router = useRouter()
 
-    const {items: initialGuests} = useSelector(store => store.guests)
+    const {items: initialGuests} = useSelector((store: RootState) => store.guests)
 
     const schema = z.object({
         arrival: zodString,
@@ -48,21 +49,20 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
         resolver: zodResolver(schema),
     })
 
-    // @fixme: fix TS error for name property
-    const {field: arrival} = useController({control, defaultValue: initialValue?.arrivalDate || "", name: "arrival"})
-    const {field: departure} = useController({
+    const {field: arrival} = useController<any>({control, defaultValue: initialValue?.arrivalDate || "", name: "arrival"})
+    const {field: departure} = useController<any>({
         control,
         defaultValue: initialValue?.departureDate || "",
         name: "departure"
     })
-    const {field: adults} = useController({control, defaultValue: initialValue?.adults || 0, name: "adults"})
-    const {field: children} = useController({control, defaultValue: initialValue?.children || 0, name: "children"})
-    const {field: roomTypeId} = useController({
+    const {field: adults} = useController<any>({control, defaultValue: initialValue?.adults || 0, name: "adults"})
+    const {field: children} = useController<any>({control, defaultValue: initialValue?.children || 0, name: "children"})
+    const {field: roomTypeId} = useController<any>({
         control,
         defaultValue: initialValue?.roomTypeId || undefined,
         name: "roomTypeId"
     })
-    const {field: guests} = useController({
+    const {field: guests} = useController<any>({
         control,
         defaultValue: initialValue?.guestIds ? initialValue?.guestIds.map((guestId) => initialGuests.find((item: Guest) => item.id === guestId)) : [],
         name: "guests"
@@ -76,7 +76,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
     const currentDate = today(getLocalTimeZone());
     const twoMonthsLater = currentDate.add({months: 2})
 
-    const {items: availabilityData} = useSelector(store => store.roomAvailability)
+    const {items: availabilityData} = useSelector((store: RootState) => store.roomAvailability)
 
     const availableRoomTypes: RoomType[] = useMemo(() => getAvailableRoomTypes({
         arrivalDate: arrival.value,
@@ -124,7 +124,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
 
     const dispatch = useDispatch()
 
-    function handleCreateReservation(data: typeof schema) {
+    function handleCreateReservation(data: any) {
         if (data.adults + data.children !== data.guests.length) return
 
         const {guests, arrival, departure, ...rest} = data
@@ -145,7 +145,7 @@ export default function CreateReservationForm({initialValue}: { initialValue?: R
         router.push('/reservations')
     }
 
-    function handleUpdateReservation(data: typeof schema) {
+    function handleUpdateReservation(data: any) {
         if (data.adults + data.children !== data.guests.length) return
 
         const {guests, arrival, departure, ...rest} = data

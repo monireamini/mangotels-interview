@@ -1,9 +1,9 @@
 import React from 'react';
 import {Button} from "@/app/ui/button";
 import * as z from "zod";
-import { v4 } from "uuid";
+import {v4} from "uuid";
 import {zodEmailRequired, zodGuestName, zodPhoneNumber} from "@/app/lib/validations";
-import {useController, useForm} from "react-hook-form";
+import {FieldValue, FieldValues, useController, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useFieldError} from "@/app/hooks/use-field-error";
 import {Chip} from '@nextui-org/react';
@@ -29,9 +29,9 @@ export const GuestsForm = ({numOfGuests, guests, onChangeGuests}: {
         resolver: zodResolver(schema),
     })
 
-    const {field: name} = useController({control, defaultValue: "", name: "name"})
-    const {field: email} = useController({control, defaultValue: "", name: "email"})
-    const {field: phone} = useController({control, defaultValue: "", name: "phone"})
+    const {field: name} = useController<any>({control, defaultValue: "", name: "name"})
+    const {field: email} = useController<any>({control, defaultValue: "", name: "email"})
+    const {field: phone} = useController<any>({control, defaultValue: "", name: "phone"})
 
     const nameError = useFieldError({errors, name: "name"})
     const emailError = useFieldError({errors, name: "email"})
@@ -40,6 +40,7 @@ export const GuestsForm = ({numOfGuests, guests, onChangeGuests}: {
 
     function handleAddGuest(data: typeof schema) {
         onChangeGuests([...guests, {id: v4(), ...data}])
+        // @ts-ignore
         reset({name: "", email: "", phone: ""})
     }
 

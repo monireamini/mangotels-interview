@@ -4,9 +4,10 @@ import CreateReservationForm from "@/app/ui/reservations/create-form";
 import {useSelector} from "react-redux";
 import {useMemo} from "react";
 import {Reservation} from "@/app/lib/definitions";
+import {RootState} from "@/app/redux/store";
 
 export default function Page({params}: { params: { reservationId: string } }) {
-    const {items: reservations} = useSelector(store => store.reservations)
+    const {items: reservations} = useSelector((store: RootState) => store.reservations)
 
     const reservation = useMemo(() => reservations.find((reservation: Reservation) => reservation.id === params.reservationId), [params.reservationId, reservations])
 

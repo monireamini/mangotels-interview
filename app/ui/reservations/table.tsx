@@ -10,6 +10,7 @@ import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {CANCEL_RESERVATION} from "@/app/redux/reducers/reservations-slice";
 import {useRouter} from "next/navigation";
+import {RootState} from "@/app/redux/store";
 
 const pageSize = 5
 
@@ -17,7 +18,7 @@ export default function ReservationsTable({reservations}: {
     reservations: Reservation[];
 }) {
 
-    const {items: initialGuests} = useSelector(state => state.guests)
+    const {items: initialGuests} = useSelector((store: RootState) => store.guests)
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
